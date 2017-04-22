@@ -1,6 +1,6 @@
 # Hoki
 ## Overview
-Hockey game.
+Handmade hockey game. Written in low-level C.
 
 ## License
 #### The MIT License (MIT)

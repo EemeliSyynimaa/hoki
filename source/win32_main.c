@@ -59,7 +59,7 @@ int CALLBACK WinMain(
 
     RegisterClassExW(&wdx);
 
-    HWND handle = CreateWindowExW(
+    CreateWindowExW(
             0,
             wdx.lpszClassName,
             L"Hoki",
