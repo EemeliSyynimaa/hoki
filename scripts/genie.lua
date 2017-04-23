@@ -23,15 +23,44 @@ solution "solution"
     
 build_config(BUILD_DIR)
 
-project "project"
+project "win32"
     targetname(TARGET_NAME)
 
-    configuration { "vs*" }
-        kind "WindowedApp"
+    kind "WindowedApp"
         
+    flags 
+    { 
+        "WinMain", 
+        "NoIncrementalLink",
+        "NoImportLib",
+        "NoWinRT",
+        "NoEditAndContinue"
+    }
+    
+    links 
+    { 
+        "opengl32"
+    }
+    
+    files
+    {
+        path.join(DIR, "source", "win32_*.h"),
+        path.join(DIR, "source", "win32_*.c")
+    }
+    
+    includedirs
+    {
+        path.join(DIR, "source")
+    }
+
+project "game"
+    targetname(TARGET_NAME)
+    
+    kind "SharedLib"
+    
+    configuration { "vs*" }
         flags 
         { 
-            "WinMain", 
             "NoIncrementalLink",
             "NoImportLib",
             "NoWinRT",
@@ -42,11 +71,16 @@ project "project"
         { 
             "opengl32"
         }
-        
+    
     files
     {
         path.join(DIR, "source", "**.h"),
         path.join(DIR, "source", "**.c")
+    }
+    
+    removefiles
+    {
+        path.join(DIR, "source", "win32_*");
     }
     
     includedirs
