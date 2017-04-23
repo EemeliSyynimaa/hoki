@@ -1,9 +1,11 @@
 # GENie
 
 GENie
-Copyright (c) 2014-2016 Branimir Karad�ic, Neil Richardson, Mike Popoloski,
-Drew Solomon, Ted de Munnik, Miodrag Milanovic, Brett Vickers, Bill Freist,
-Terry Hendrix II, Ryan Juckett, Andrew Johnson
+Copyright (c) 2014-2016 Branimir Karadžić, Neil Richardson, Mike Popoloski,
+Drew Solomon, Ted de Munnik, Miodrag Milanović, Brett Vickers, Bill Freist,
+Terry Hendrix II, Ryan Juckett, Andrew Johnson, Johan Sköld,
+Alastair Murray, Patrick Munns, Jan-Eric Duden, Phil Stevens, Stuart Carnie,
+Nikolay Aleksiev, Jon Olson.
 All rights reserved.
 
 https://github.com/bkaradzic/genie
@@ -65,7 +67,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # inspect.lua
 
-Copyright (c) 2013 Enrique Garc�a Cota
+Copyright (c) 2013 Enrique García Cota
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
