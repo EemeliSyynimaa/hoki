@@ -39,7 +39,8 @@ function build_config(build_dir)
     flags 
     {
         "ExtraWarnings",
-        "FatalWarnings"
+        "FatalWarnings",
+        "StaticRuntime"
     }
     
     configuration "debug"

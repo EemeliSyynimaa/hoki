@@ -28,7 +28,20 @@ project "project"
 
     configuration { "vs*" }
         kind "WindowedApp"
-        flags { "WinMain" }
+        
+        flags 
+        { 
+            "WinMain", 
+            "NoIncrementalLink",
+            "NoImportLib",
+            "NoWinRT",
+            "NoEditAndContinue"
+        }
+        
+        links 
+        { 
+            "opengl32"
+        }
         
     files
     {
