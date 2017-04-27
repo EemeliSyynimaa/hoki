@@ -1,5 +1,31 @@
 #include <windows.h>
-#include <gl/GL.h>
+
+typedef void game_render(void);
+typedef void game_init(void);
+
+game_render* win32_game_render;
+game_init* win32_game_init;
+
+HMODULE game_lib = 0;
+
+void win32_game_load()
+{
+    if (game_lib)
+    {
+        FreeLibrary(game_lib);
+        win32_game_init = 0;
+        win32_game_render = 0;
+    }
+    
+    CopyFileW(L"game.dll", L"game-run.dll", FALSE);
+    
+    game_lib = LoadLibraryW(L"game-run.dll");
+
+    win32_game_render = (game_render*)GetProcAddress(game_lib, "game_render");
+    win32_game_init = (game_init*)GetProcAddress(game_lib, "game_init");
+    
+    win32_game_init();
+}
 
 int running = 0;
 
@@ -24,22 +50,12 @@ LRESULT CALLBACK MainWindowProc(
 
         case WM_DESTROY:
         {
-
             running = 0;
         } break;
 
         case WM_PAINT:
         {
-            glClear(GL_COLOR_BUFFER_BIT);
-            glBegin(GL_TRIANGLES);
-            glColor3f(1.0f, 0.0f, 0.0f);
-            glVertex2i(0, 1);
-            glColor3f(0.0f, 1.0f, 0.0f);
-            glVertex2i(-1, -1);
-            glColor3f(0.0f, 0.0f, 1.0f);
-            glVertex2i(1, -1);
-            glEnd();
-            glFlush();
+            win32_game_render();
 
             BeginPaint(hwnd, &ps);
             EndPaint(hwnd, &ps);
@@ -121,7 +137,11 @@ int CALLBACK WinMain(
 
     ShowWindow(hwnd, nCmdShow);
 
+    win32_game_load();
+
     running = 1;
+
+    FILETIME last_update = { 0 };
 
     while (running)
     {
@@ -136,6 +156,21 @@ int CALLBACK WinMain(
 
             TranslateMessage(&msg);
             DispatchMessage(&msg);
+        }
+        
+        WIN32_FILE_ATTRIBUTE_DATA data;
+        
+        GetFileAttributesExW(L"game.dll", GetFileExInfoStandard, &data);
+        
+        FILETIME new_time = data.ftLastWriteTime;
+        
+        if (CompareFileTime(&new_time, &last_update) != 0)
+        {
+            OutputDebugStringW(L"ALL WORKS\n");
+            last_update = new_time;
+
+            win32_game_load();
+            win32_game_render();
         }
     }
 

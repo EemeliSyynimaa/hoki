@@ -1,6 +1,5 @@
 DIR = path.getabsolute("..")
 BUILD_DIR = path.join(DIR, ".build")
-TARGET_NAME = "hoki"
 
 dofile("config.lua")
 
@@ -24,7 +23,7 @@ solution "solution"
 build_config(BUILD_DIR)
 
 project "win32"
-    targetname(TARGET_NAME)
+    targetname("win32")
 
     kind "WindowedApp"
         
@@ -54,7 +53,7 @@ project "win32"
     }
 
 project "game"
-    targetname(TARGET_NAME)
+    targetname("game")
     
     kind "SharedLib"
     
@@ -65,11 +64,6 @@ project "game"
             "NoImportLib",
             "NoWinRT",
             "NoEditAndContinue"
-        }
-        
-        links 
-        { 
-            "opengl32"
         }
     
     files
