@@ -15,33 +15,33 @@ void game_render(void)
     glVertex2i(1, 1);
     glColor3f(1.0f, 1.0f, 1.0f);
     glVertex2i(-1, 1);
-    glColor3f(1.0f, 1.0f, 1.0f);
+    glColor3f(1.0f, 0.0f, 1.0f);
     glVertex2i(0, 0);
     
     // Right
-    glColor3f(1.0f, 0.0f, 0.0f);
+    glColor3f(1.0f, 1.0f, 1.0f);
     glVertex2i(1, 1);
-    glColor3f(1.0f, 0.0f, 0.0f);
+    glColor3f(1.0f, 1.0f, 0.0f);
     glVertex2i(0, 0);
-    glColor3f(1.0f, 0.0f, 0.0f);
+    glColor3f(1.0f, 1.0f, 0.0f);
     glVertex2i(1, -1);
     
     // Bottom
-    glColor3f(0.0f, 1.0f, 0.0f);
+    glColor3f(1.0f, 0.0f, 0.0f);
     glVertex2i(1, -1);
-    glColor3f(0.0f, 1.0f, 0.0f);
+    glColor3f(0.0f, 0.0f, 1.0f);
     glVertex2i(0, 0);
-    glColor3f(0.0f, 1.0f, 0.0f);
+    glColor3f(1.0f, 0.0f, 0.0f);
     glVertex2i(-1, -1);
     
     // Left
     glColor3f(0.0f, 0.0f, 1.0f);
     glVertex2i(-1, -1);
-    glColor3f(0.0f, 0.0f, 1.0f);
+    glColor3f(0.0f, 0.0f, 0.0f);
     glVertex2i(0, 0);
     glColor3f(0.0f, 0.0f, 1.0f);
     glVertex2i(-1, 1);
-    
+       
     glEnd();
     glFlush();
 }
