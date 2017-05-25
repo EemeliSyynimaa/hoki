@@ -1,1 +1,1 @@
-@devenv ../build/win32.exe
+@devenv ../build/win32.exe win32_main.c

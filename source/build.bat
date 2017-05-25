@@ -8,7 +8,7 @@ pushd ..\build
 
 del *.pdb > NUL 2> NUL
 
-cl %CommonCompilerFlags%  -Fegame.dll ..\source\hoki.c -LD /link -incremental:no -PDB:game_%random%.pdb -opt:ref -EXPORT:game_init -EXPORT:game_render
+cl %CommonCompilerFlags%  -Fegame.dll ..\source\hoki.c -LD /link -incremental:no -PDB:game_%random%.pdb -opt:ref -EXPORT:game_update
 cl %CommonCompilerFlags%  -Fewin32.exe ..\source\win32_main.c %CommonLinkerFlags%
 
 popd
