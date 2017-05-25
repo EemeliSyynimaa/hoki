@@ -1,0 +1,13 @@
+- Game: Design game state structure (input, memory)
+- Win32: A vs W? Which one?
+- Win32: Add support for animations (60 fps or smth)
+- Win32: Allocate game memory
+- Win32: Read keyboard and gamepad input
+- Win32: Save game state to a file or different memory location
+- Win32: Reload game state from a file or different memory location
+- Win32: Record game input
+- Win32: Replay game input
+- OpenGL: Remove platform specific code from header files
+- OpenGL: Support all GL functions, types and constants
+- Sublime: Add scripts for build, debug, run and git commands
+- CL: Review compiler and linker parameters
