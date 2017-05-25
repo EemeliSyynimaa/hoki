@@ -1,33 +1,52 @@
 #include <windows.h>
+#include <gl/gl.h>
+#include "hoki.h"
 
-typedef void game_render(void);
-typedef void game_init(void);
-
-game_render* win32_game_render;
-game_init* win32_game_init;
+typedef void game_update(game_state_t*);
+game_update* win32_game_update;
 
 HMODULE game_lib = 0;
+int running = 0;
+game_state_t game_state = { 0 };
 
 void win32_game_load()
 {
     if (game_lib)
     {
         FreeLibrary(game_lib);
-        win32_game_init = 0;
-        win32_game_render = 0;
+        win32_game_update = 0;
     }
     
     CopyFileW(L"game.dll", L"game-run.dll", FALSE);
     
     game_lib = LoadLibraryW(L"game-run.dll");
 
-    win32_game_render = (game_render*)GetProcAddress(game_lib, "game_render");
-    win32_game_init = (game_init*)GetProcAddress(game_lib, "game_init");
-    
-    win32_game_init();
+    win32_game_update = (game_update*)GetProcAddress(game_lib, "game_update");
 }
 
-int running = 0;
+void win32_player_render()
+{
+    float screen_width = 6;
+    float screen_height = 6;
+
+    float real_x = (game_state.player_x / screen_width) * 2 - 1.0f;
+    float real_y = (game_state.player_y / screen_height) * 2 - 1.0f;
+
+    float size_x = 0.1f;
+    float size_y = 0.1f;
+
+    glClear(GL_COLOR_BUFFER_BIT);
+    glBegin(GL_TRIANGLES);
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    glVertex2f(real_x, real_y + size_y);
+    glVertex2f(real_x - size_x, real_y - size_y);
+    glVertex2f(real_x + size_x, real_y - size_y);
+    
+    glEnd();
+    glFlush();
+}
 
 LRESULT CALLBACK MainWindowProc(
     HWND hwnd,
@@ -55,8 +74,6 @@ LRESULT CALLBACK MainWindowProc(
 
         case WM_PAINT:
         {
-            win32_game_render();
-
             BeginPaint(hwnd, &ps);
             EndPaint(hwnd, &ps);
         } break;
@@ -66,6 +83,42 @@ LRESULT CALLBACK MainWindowProc(
             if (wParam == VK_ESCAPE)
             {
                 running = 0;
+            }
+            else if (wParam == 0x41)
+            {
+                game_state.keyboard_state.a = 1;
+            }
+            else if (wParam == 0x44)
+            {
+                game_state.keyboard_state.d = 1;
+            }
+            else if (wParam == 0x57)
+            {
+                game_state.keyboard_state.w = 1;
+            }
+            else if (wParam == 0x53)
+            {
+                game_state.keyboard_state.s = 1;
+            }
+        } break;
+
+        case WM_KEYUP:
+        {
+            if (wParam == 0x41)
+            {
+                game_state.keyboard_state.a = 0;
+            }
+            else if (wParam == 0x44)
+            {
+                game_state.keyboard_state.d = 0;
+            }
+            else if (wParam == 0x57)
+            {
+                game_state.keyboard_state.w = 0;
+            }
+            else if (wParam == 0x53)
+            {
+                game_state.keyboard_state.s = 0;
             }
         } break;
 
@@ -137,6 +190,9 @@ int CALLBACK WinMain(
 
     ShowWindow(hwnd, nCmdShow);
 
+    game_state.player_x = 3.0f;
+    game_state.player_y = 3.0f;
+
     win32_game_load();
 
     running = 1;
@@ -170,8 +226,14 @@ int CALLBACK WinMain(
             last_update = new_time;
 
             win32_game_load();
-            win32_game_render();
         }
+
+        win32_game_update(&game_state);
+
+        win32_player_render();
+
+        // TODO: Add better fixed timestep.
+        Sleep(16);
     }
 
     wglMakeCurrent(0, 0);
